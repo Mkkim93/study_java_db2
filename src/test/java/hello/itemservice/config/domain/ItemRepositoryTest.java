@@ -6,28 +6,29 @@ import hello.itemservice.repository.ItemSearchCond;
 import hello.itemservice.repository.ItemUpdateDto;
 import hello.itemservice.repository.memory.MemoryItemRepository;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Commit;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
-class ItemRepositoryTest {
+@Transactional
+@SpringBootTest // @SpringBootApplication() 을 찾는다. 즉 해당 클래스에서 @Import() 한 테스트를 실행한다.
+ class ItemRepositoryTest {
 
     @Autowired
     ItemRepository itemRepository;
 
-    @AfterEach
-    void afterEach() {
-        //MemoryItemRepository 의 경우 제한적으로 사용
-        if (itemRepository instanceof MemoryItemRepository) {
-            ((MemoryItemRepository) itemRepository).clearStore();
-        }
-    }
-
+/*    @Commit
+    @Transactional*/ // 해당 메서드만 commit 하는 애노테이션 추가
     @Test
     void save() {
         //given
