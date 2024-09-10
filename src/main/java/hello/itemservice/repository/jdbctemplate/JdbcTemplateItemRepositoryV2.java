@@ -55,6 +55,7 @@ public class JdbcTemplateItemRepositoryV2 implements ItemRepository {
         item.setId(key);
         return item;
     }
+
     @Override
     public void update(Long itemId, ItemUpdateDto updateParam) {
         String sql = "update item set item_name=:itemName, price=:price, quantity=:quantity where id=:id";
@@ -65,6 +66,7 @@ public class JdbcTemplateItemRepositoryV2 implements ItemRepository {
                 .addValue("id", itemId);
         template.update(sql, param);
     }
+
     @Override
     public Optional<Item> findById(Long id) {
         String sql = "select id, item_name, price, quantity from item where id =:id";

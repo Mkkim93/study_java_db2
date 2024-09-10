@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hello.itemservice.repository.mybatis.ItemMapper">
+
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        insert into item (item_name, price, quantity)
+        values (#{itemName}, #{price}, #{quantity})
+    </insert>
+
+    <update id="update">
+        update item
+        set item_name = #{updateParam.itemName}, <!--updateParam : interface 에서 정의한 @Param 값-->
+            price = #{updateParam.price},
+            quantity = #{updateParam.quantity}
+        where id = #{id} <!-- id 는 interface 에서 @Param 아님-->
+    </update>
+
+    <select id="findById" resultType="Item">
+        select id, item_name, price, quantity from item where id = #{id}
+    </select>
+
+    <select id="findAll" resultType="Item">
+        select id, item_name, price, quantity from item
+        <where><!-- <where> : if 조건이 하나라도 성공하면 where 조건이 수행되고, if 조건이 모두 실패하면 where 조건 수행 안됨-->
+            <if test="itemName != null and itemName != ''">
+                and item_name like concat('%', #{itemName}, '%')
+            </if>
+            <if test="maxPrice != null">
+                and price &lt;= #{maxPrice} <!-- '<' == '&lt;'-->
+            </if>
+        </where>
+    </select>
+
+</mapper>

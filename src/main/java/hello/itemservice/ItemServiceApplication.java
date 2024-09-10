@@ -1,8 +1,7 @@
 package hello.itemservice;
 
 import com.zaxxer.hikari.util.DriverDataSource;
-import hello.itemservice.config.JdbcTemplateV1Config;
-import hello.itemservice.config.JdbcTemplateV3Config;
+import hello.itemservice.config.*;
 import hello.itemservice.repository.ItemRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
@@ -15,7 +14,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import javax.sql.DataSource;
 import javax.xml.crypto.Data;
 @Slf4j
-@Import(JdbcTemplateV3Config.class)
+@Import(QueryDslConfig.class)
 @SpringBootApplication(scanBasePackages = "hello.itemservice.web")
 public class ItemServiceApplication {
 
@@ -29,7 +28,8 @@ public class ItemServiceApplication {
 		return new TestDataInit(itemRepository);
 	}
 
-	@Bean
+	// 임베디드 db 테스트 시 코드 작성
+	/*@Bean
 	@Profile("test")
 	public DataSource dataSource() {
 		log.info("메모리 데이터 베이스 초기화");
@@ -39,6 +39,6 @@ public class ItemServiceApplication {
 		dataSource.setUsername("test");
 		dataSource.setPassword("java");
 		return dataSource;
-	}
+	}*/
 }
 
